@@ -131,3 +131,5 @@ dmypy.json
 testing/
 riskcli.json
 logs/
+output-report.xlsx
+~$output-report.xlsx
