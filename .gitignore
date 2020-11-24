@@ -109,7 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+.ionide/
 # Spyder project settings
 .spyderproject
 .spyproject
