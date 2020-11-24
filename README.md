@@ -6,7 +6,7 @@ Python utility for red teaming and penetration testing CLI tools to map commands
 
 This library provides a `AttckMapper` class with a `mapping` decorator that can be used on functions that perform an offensive technique.
 
-Unless you plan to run the sample tools, install
+Unless you plan to run the sample tools, install the wheel in the `dist` folder. Otherwise, you can install for development with `poetry install` or `poetry install --no-dev` depending on your requirements.
 
 ### _Example function:_
 
