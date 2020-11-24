@@ -1,7 +1,7 @@
 import ast
-from collections import namedtuple
 import inspect
 import json
+from collections import namedtuple
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
@@ -23,8 +23,13 @@ class AttckMapper:
     """
 
     def __init__(
-        self, base_cti_path: Path, log_path: Path = Path("riskmap.log")
+        self,
+        base_cti_path: Path = Path(__file__).parents[1] / "cti",
+        log_path: Path = Path("~/riskmap.log").expanduser(),
     ) -> None:
+
+        self.base_cti_path = base_cti_path
+        self.log_path = log_path
 
         # Configure sources
         self.src = CompositeDataSource()
@@ -34,7 +39,7 @@ class AttckMapper:
         self.src.add_data_source(FileSystemSource(base_cti_path / "capec"))
 
         logger.remove()
-        logger.add(sink=log_path, format="{message}")
+        logger.add(sink=self.log_path, format="{message}")
 
     def lookup_by_attack_id(self, attack_id: str):
         return self.src.query(
@@ -119,7 +124,7 @@ class AttckMapper:
 
             for ref in pattern.external_references:
                 if hasattr(ref, "external_id"):
-                    if ref.external_id not in references:
+                    if ref.external_id not in [r[0] for r in references]:
                         references.append([ref.external_id, ref.url])
 
         summarytable = PrettyTable(title="Summary", header=False)

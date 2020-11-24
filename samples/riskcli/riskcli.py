@@ -1,17 +1,18 @@
 import logging
 from pathlib import Path
-from xml.etree import ElementTree
 from pprint import pformat
+from xml.etree import ElementTree
 
 import requests
 import typer
 from azure.core.exceptions import ClientAuthenticationError
 from azure.identity import UsernamePasswordCredential
-from azure.mgmt.resource import SubscriptionClient, ResourceManagementClient
+from azure.mgmt.resource import ResourceManagementClient, SubscriptionClient
 from loguru import logger
 
 from riskmap import ROOT_DIR
 from riskmap.mappings import AttckMapper
+from riskmap.reports import RiskmapReportGenerator
 
 logger = logging.getLogger("azure")
 logger.setLevel(logging.ERROR)
@@ -31,7 +32,6 @@ def azbrute(
     passList: Path = typer.Option(..., "-p", help="Path to password list"),
 ):
     """Bruteforces password for an Azure account"""
-    print("in", id(azbrute))
     validCred = {"user": username, "pass": None}
     with open(passList, "r", encoding="latin-1") as passes:
         for pwd in passes.read().splitlines():
@@ -124,8 +124,10 @@ def describe(command: str):
 
 
 @app.command()
-def genreport(path: Path = typer.Argument(..., help="Path to riskmap log" )):
-    
+def genreport(path: Path = typer.Argument(..., help="Path to riskmap log")):
+    rrg = RiskmapReportGenerator(path)
+    output = rrg.to_excel()
+
 
 if __name__ == "__main__":
     app()
