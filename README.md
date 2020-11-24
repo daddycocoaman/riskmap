@@ -33,7 +33,16 @@ def azbrute(
     typer.echo(f"\nCredential found! - {validCred}\n")
 ```
 
-The decorator function will perform as normal and actions will be logged. When a report is generator, the IDs are looked up to provide a comprehensive description of what events took place, the techniques involved, and any additional references found in the MITRE matrices (CWE, CAPEC, etc).
+The decorator function will perform as normal and actions will be logged. When a report is generated, the IDs are looked up to provide a comprehensive description of what events took place, the techniques involved, and any additional references found in the MITRE matrices (CWE, CAPEC, etc).
+
+_Report Generation Example:_
+
+```python
+@app.command()
+def genreport(path: Path = typer.Argument(..., help="Path to riskmap log")):
+    rrg = RiskmapReportGenerator(path)
+    rrg.to_excel("output-report.xlsx")
+```
 
 This library has been tested with the [Typer](https://typer.tiangolo.com/) and therefore should also work with the [Click](https://github.com/pallets/click) library as well. By all accounts, the decorator should work with any normal synchronous function.
 

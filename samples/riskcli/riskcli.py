@@ -126,7 +126,7 @@ def describe(command: str):
 @app.command()
 def genreport(path: Path = typer.Argument(..., help="Path to riskmap log")):
     rrg = RiskmapReportGenerator(path)
-    output = rrg.to_excel()
+    rrg.to_excel("output-report.xlsx")
 
 
 if __name__ == "__main__":
